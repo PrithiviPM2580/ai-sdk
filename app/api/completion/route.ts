@@ -1,11 +1,13 @@
 import { generateText } from "ai"
 import { google } from "@ai-sdk/google"
 
-export async function POST() {
+export async function POST(req: Request) {
+  const { prompt } = await req.json()
+
   try {
     const { text } = await generateText({
       model: google("gemini-2.5-flash"),
-      prompt: "What is the capital of France?",
+      prompt,
     })
 
     return Response.json({ text })
