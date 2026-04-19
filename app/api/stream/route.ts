@@ -1,11 +1,11 @@
 import { streamText } from "ai"
-// import { google } from "@ai-sdk/google"
+import { google } from "@ai-sdk/google"
 
 export async function POST(request: Request) {
   try {
     const { prompt } = await request.json()
     const result = streamText({
-      model: "google/gemini-2.0-flash",
+      model: google("gemini-2.5-flash"),
       prompt,
     })
     result.usage.then((usage) => {
