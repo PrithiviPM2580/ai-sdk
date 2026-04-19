@@ -1,13 +1,19 @@
 import { streamText } from "ai"
-import { google } from "@ai-sdk/google"
+// import { google } from "@ai-sdk/google"
 
 export async function POST(request: Request) {
-  const { prompt } = await request.json()
-
   try {
-    const result = await streamText({
-      model: google("gemini-2.0-flash"),
+    const { prompt } = await request.json()
+    const result = streamText({
+      model: "google/gemini-2.0-flash",
       prompt,
+    })
+    result.usage.then((usage) => {
+      console.log({
+        inputTokens: usage.inputTokens,
+        outputTokens: usage.outputTokens,
+        totalTokens: usage.totalTokens,
+      })
     })
 
     return result.toUIMessageStreamResponse()

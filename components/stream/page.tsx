@@ -32,9 +32,14 @@ export default function Stream() {
               <span className="text-sm font-semibold text-white">AI</span>
             </div>
             <div className="rounded-lg bg-slate-700 px-4 py-2 text-sm text-slate-100">
-              {error && <div className="text-red-400">{error.message}</div>}
-              {isLoading && "Generating response..."}
-              {completion && <div className="text-green-400">{completion}</div>}
+              {error && (
+                <div className="mb-4 text-red-500">{error.message}</div>
+              )}
+              {isLoading && !completion && <div>Loading...</div>}
+
+              {completion && (
+                <div className="whitespace-pre-wrap">{completion}</div>
+              )}
             </div>
           </div>
         </div>
@@ -54,6 +59,7 @@ export default function Stream() {
           />
           <button
             type="submit"
+            disabled={isLoading}
             className="mt-2 h-full rounded-lg bg-blue-600 px-8 py-1.5 text-sm font-semibold text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
           >
             Send
