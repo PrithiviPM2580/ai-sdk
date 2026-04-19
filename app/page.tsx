@@ -1,5 +1,5 @@
-import CompletionPage from "@/components/completion/page"
+import Stream from "@/components/stream/page"
 
 export default function Page() {
-  return <CompletionPage />
+  return <Stream />
 }
