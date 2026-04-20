@@ -23,17 +23,24 @@ export default function Chat() {
 
         {/* Chat Messages Area */}
         <div className="flex-1 overflow-y-auto px-6 py-4">
-          <div className="flex items-start gap-3">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600">
-              <span className="text-sm font-semibold text-white">AI</span>
-            </div>
-            <div className="rounded-lg bg-slate-700 px-4 py-2 text-sm text-slate-100">
-              {error && <span className="text-red-400">{error.message}</span>}
-              {messages.map((msg) => (
-                <div className="" key={msg.id}>
-                  <div className="">
-                    {msg.role === "user" ? "You: " : "AI: "}
-                  </div>
+          <div className="flex flex-col items-start gap-3">
+            {error && <span className="text-red-400">{error.message}</span>}
+            {messages.map((msg) => (
+              <div className="" key={msg.id}>
+                <div className="">
+                  {msg.role === "user" ? (
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600">
+                      <span className="text-sm font-semibold text-white">
+                        You
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600">
+                      <span className="text-sm font-semibold text-white">
+                        AI
+                      </span>
+                    </div>
+                  )}
                   {msg.parts.map((part, index) => {
                     switch (part.type) {
                       case "text":
@@ -47,15 +54,17 @@ export default function Chat() {
                     }
                   })}
                 </div>
-              ))}
-              {(status === "submitted" || status === "streaming") && (
-                <div className="mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-blue-400"></div>
-                  </div>
+                <div className="rounded-lg bg-slate-700 px-4 py-2 text-sm text-slate-100">
+                  {(status === "submitted" || status === "streaming") && (
+                    <div className="mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-blue-400"></div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
 
