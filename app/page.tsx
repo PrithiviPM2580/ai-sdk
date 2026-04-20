@@ -1,5 +1,5 @@
-import Stream from "@/components/stream/page"
+import Chat from "@/components/chat/page"
 
 export default function Page() {
-  return <Stream />
+  return <Chat />
 }
