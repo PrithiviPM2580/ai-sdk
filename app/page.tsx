@@ -1,5 +1,5 @@
-import Chat from "@/components/chat/page"
+import StructureOutput from "@/components/structrue-object/page"
 
 export default function Page() {
-  return <Chat />
+  return <StructureOutput />
 }
