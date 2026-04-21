@@ -1,5 +1,4 @@
-import StructureOutput from "@/components/structrue-object/page"
-
+import ImageChat from "@/components/image-chat/page"
 export default function Page() {
-  return <StructureOutput />
+  return <ImageChat />
 }
