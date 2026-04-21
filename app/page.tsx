@@ -1,4 +1,4 @@
-import ImageChat from "@/components/image-chat/page"
+import Tools from "@/components/tools/page"
 export default function Page() {
-  return <ImageChat />
+  return <Tools />
 }
