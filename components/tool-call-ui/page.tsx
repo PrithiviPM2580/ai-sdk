@@ -23,7 +23,7 @@ export default function ToolCallUI() {
   return (
     <div className="stretch mx-auto flex w-full max-w-md flex-col py-24">
       {error && <div className="mb-4 text-red-500">{error.message}</div>}
-
+      {/* 
       {messages.map((message) => (
         <div key={message.id} className="mb-4">
           <div className="font-semibold">
@@ -95,6 +95,147 @@ export default function ToolCallUI() {
                   default:
                     return null
                 }
+              default:
+                return null
+            }
+          })}
+        </div>
+      ))} */}
+      {messages.map((message) => (
+        <div key={message.id} className="mb-4">
+          <div className="font-semibold">
+            {message.role === "user" ? "You:" : "AI:"}
+          </div>
+          {message.parts.map((part, index) => {
+            switch (part.type) {
+              case "text":
+                return (
+                  <div
+                    key={`${message.id}-text-${index}`}
+                    className="whitespace-pre-wrap"
+                  >
+                    {part.text}
+                  </div>
+                )
+
+              case "tool-getWeather":
+                return (
+                  <div
+                    key={`${message.id}-getWeather-${index}`}
+                    className="mt-1 space-y-1"
+                  >
+                    {/* Always show input-streaming as passed state */}
+                    {(part.state === "input-streaming" ||
+                      part.state === "input-available" ||
+                      part.state === "output-available" ||
+                      part.state === "output-error") && (
+                      <div className="rounded border border-zinc-700 bg-zinc-800/50 p-2 opacity-50">
+                        <div className="text-sm text-zinc-500">
+                          📍 [STATE: input-streaming] Receiving weather
+                          request...
+                        </div>
+                        <pre className="mt-1 text-xs text-zinc-600">
+                          {JSON.stringify(part.input || {}, null, 2)}
+                        </pre>
+                      </div>
+                    )}
+
+                    {/* Show input-available if we're at or past that state */}
+                    {(part.state === "input-available" ||
+                      part.state === "output-available" ||
+                      part.state === "output-error") && (
+                      <div
+                        className={`rounded border border-zinc-700 bg-zinc-800/50 p-2 ${part.state === "input-available" ? "" : "opacity-70"}`}
+                      >
+                        <div className="text-sm text-zinc-400">
+                          📍 [STATE: input-available] Getting weather for{" "}
+                          {part.input?.city}...
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Show output-available if we're at that state */}
+                    {part.state === "output-available" && (
+                      <div className="rounded border border-zinc-700 bg-zinc-800/50 p-2">
+                        <div className="text-sm text-zinc-400">
+                          📍 [STATE: output-available] Weather found
+                        </div>
+                        <div className="text-sm text-zinc-300">
+                          {part.output}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Show output-error if we're at that state */}
+                    {part.state === "output-error" && (
+                      <div className="rounded border border-zinc-700 bg-zinc-800/50 p-2">
+                        <div className="text-sm text-red-400">
+                          [STATE: output-error] Error: {part.errorText}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+
+              case "tool-getWeather":
+                return (
+                  <div
+                    key={`${message.id}-getWeather-${index}`}
+                    className="mt-1 space-y-1"
+                  >
+                    {/* Always show input-streaming as passed state */}
+                    {(part.state === "input-streaming" ||
+                      part.state === "input-available" ||
+                      part.state === "output-available" ||
+                      part.state === "output-error") && (
+                      <div className="rounded border border-zinc-700 bg-zinc-800/50 p-2 opacity-50">
+                        <div className="text-sm text-zinc-500">
+                          🌤️ [STATE: input-streaming] Receiving weather
+                          request...
+                        </div>
+                        <pre className="mt-1 text-xs text-zinc-600">
+                          {JSON.stringify(part.input || {}, null, 2)}
+                        </pre>
+                      </div>
+                    )}
+
+                    {/* Show input-available if we're at or past that state */}
+                    {(part.state === "input-available" ||
+                      part.state === "output-available" ||
+                      part.state === "output-error") && (
+                      <div
+                        className={`rounded border border-zinc-700 bg-zinc-800/50 p-2 ${part.state === "input-available" ? "" : "opacity-70"}`}
+                      >
+                        <div className="text-sm text-zinc-400">
+                          🌤️ [STATE: input-available] Getting weather for{" "}
+                          {part.input?.city}...
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Show output-available if we're at that state */}
+                    {part.state === "output-available" && (
+                      <div className="rounded border border-zinc-700 bg-zinc-800/50 p-2">
+                        <div className="text-sm text-zinc-400">
+                          🌤️ [STATE: output-available] Weather
+                        </div>
+                        <div className="text-sm text-zinc-300">
+                          <div>{part.output}</div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Show output-error if we're at that state */}
+                    {part.state === "output-error" && (
+                      <div className="rounded border border-zinc-700 bg-zinc-800/50 p-2">
+                        <div className="text-sm text-red-400">
+                          [STATE: output-error] Error: {part.errorText}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+
               default:
                 return null
             }
