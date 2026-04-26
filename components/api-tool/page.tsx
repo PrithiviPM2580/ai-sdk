@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
 import type { ChatMessage } from "@/app/api/api-tool/route"
+import { WeatherCard } from "./weather-card"
 
 export default function APIToolPage() {
   const [input, setInput] = useState("")
@@ -75,11 +76,7 @@ export default function APIToolPage() {
                         key={`${message.id}-getWeather-${index}`}
                         className="mt-1 mb-2"
                       >
-                        <div className="text-sm text-zinc-400">🌤️ Weather</div>
-                        <div className="text-sm text-zinc-300">
-                          {part.output.location.name},{" "}
-                          {part.output.location.country}
-                        </div>
+                        <WeatherCard weatherData={part.output} />
                       </div>
                     )
 
