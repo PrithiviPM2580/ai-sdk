@@ -1,4 +1,4 @@
-import ToolCallUI from "@/components/tool-call-ui/page"
+import ApiTool from "@/components/api-tool/page"
 export default function Page() {
-  return <ToolCallUI />
+  return <ApiTool />
 }
