@@ -1,4 +1,4 @@
-import ApiTool from "@/components/api-tool/page"
+import WebSearchTool from "@/components/web-search-tool/page"
 export default function Page() {
-  return <ApiTool />
+  return <WebSearchTool />
 }
