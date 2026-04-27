@@ -1,4 +1,3 @@
-import { google } from "@ai-sdk/google"
 import {
   convertToModelMessages,
   stepCountIs,
@@ -9,6 +8,8 @@ import {
   InferUITools,
 } from "ai"
 import { z } from "zod"
+import { openRouter } from "@/lib/open-route"
+import { selectModel } from "@/lib/helper"
 
 const tools = {
   getWeather: tool({
@@ -52,10 +53,10 @@ export async function POST(request: Request) {
     const { messages }: { messages: ChatMessage[] } = await request.json()
 
     const result = streamText({
-      model: google("gemini-2.5-flash"),
+      model: openRouter.chat(selectModel("chat", "balanced")),
       messages: await convertToModelMessages(messages),
       tools,
-      stopWhen: stepCountIs(2),
+      stopWhen: stepCountIs(3),
       onStepFinish: ({ toolResults }) => {
         console.log(toolResults)
       },
