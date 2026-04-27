@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     const { messages }: { messages: ChatMessage[] } = await request.json()
 
     const result = streamText({
-      model: openRouter.chat(selectModel("chat", "balanced")),
+      model: openRouter.chat(selectModel("chat", "quality")),
       messages: await convertToModelMessages(messages),
       tools,
       stopWhen: stepCountIs(3),
