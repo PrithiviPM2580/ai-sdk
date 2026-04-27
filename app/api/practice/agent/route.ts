@@ -6,16 +6,17 @@ import {
   createAgentUIStreamResponse,
 } from "ai"
 import { google } from "@ai-sdk/google"
+import { groq } from "@ai-sdk/groq"
 import { z } from "zod"
 import { openRouter } from "@/lib/open-route"
 import { selectModel } from "@/lib/helper"
 
 export const weatherAgent = new ToolLoopAgent({
-  model: openRouter.chat(selectModel("title", "quality")),
+  model: groq("openai/gpt-oss-20b"),
 
   instructions: `
     You are a helpful weather assistant.
-    Always use the weather tool when needed.
+    Always use tool when needed.
   `,
 
   tools: {
@@ -32,6 +33,26 @@ export const weatherAgent = new ToolLoopAgent({
           return { city, temp: 25, condition: "Sunny" }
         }
         return { city, temp: 0, condition: "Unknown" }
+      },
+    }),
+    changeDegreeToCelsius: tool({
+      description: "Change degree from Fahrenheit to Celsius",
+      inputSchema: z.object({
+        fahrenheit: z.number(),
+      }),
+      execute: async ({ fahrenheit }) => {
+        const celsius = ((fahrenheit - 32) * 5) / 9
+        return { celsius }
+      },
+    }),
+    changeDegreeToFahrenheit: tool({
+      description: "Change degree from Celsius to Fahrenheit",
+      inputSchema: z.object({
+        celsius: z.number(),
+      }),
+      execute: async ({ celsius }) => {
+        const fahrenheit = (celsius * 9) / 5 + 32
+        return { fahrenheit }
       },
     }),
   },
