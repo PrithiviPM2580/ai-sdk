@@ -9,6 +9,8 @@ export async function POST(request: Request) {
       model: google("gemini-2.5-flash"),
       messages: await convertToModelMessages(messages),
     })
+
+    return result.toUIMessageStreamResponse()
   } catch (error) {
     console.error("Error processing request:", error)
     return new Response("Internal Server Error", { status: 500 })
