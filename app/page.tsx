@@ -1,3 +1,4 @@
+import Tools from "@/components/tools/page"
 export default function Page() {
-  return <div className="">Hello</div>
+  return <Tools />
 }
