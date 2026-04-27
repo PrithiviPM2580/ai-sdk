@@ -21,9 +21,25 @@ const tools = {
         return "70°F and cloudy"
       } else if (city === "Pokhara") {
         return "80°F and sunny"
+      } else if (city === "Lalitpur") {
+        return "75°F and rainy"
+      } else if (city === "Bhaktapur") {
+        return "65°F and windy"
       } else {
-        return "Unknown"
+        return `Sorry, I don't have weather information for ${city}`
       }
+    },
+  }),
+  changeDegreeToCelsius: tool({
+    description: "Change degree from Fahrenheit to Celsius",
+    inputSchema: z.object({
+      fahrenheit: z
+        .number()
+        .describe("The temperature in Fahrenheit to convert to Celsius"),
+    }),
+    execute: async ({ fahrenheit }) => {
+      const celsius = ((fahrenheit - 32) * 5) / 9
+      return `${celsius}°C`
     },
   }),
 }
@@ -40,6 +56,9 @@ export async function POST(request: Request) {
       messages: await convertToModelMessages(messages),
       tools,
       stopWhen: stepCountIs(2),
+      onStepFinish: ({ toolResults }) => {
+        console.log(toolResults)
+      },
     })
 
     return result.toUIMessageStreamResponse()
