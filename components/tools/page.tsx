@@ -3,14 +3,14 @@
 import { useState } from "react"
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
-import { ChatMessage } from "@/app/api/tools/route"
+import { ChatMessage } from "@/app/api/practice/tools/route"
 
 export default function Tools() {
   const [input, setInput] = useState("")
 
   const { messages, sendMessage, status, error, stop } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({
-      api: "/api/tools",
+      api: "/api/practice/tools",
     }),
   })
 
@@ -38,6 +38,39 @@ export default function Tools() {
                     className="whitespace-pre-wrap"
                   >
                     {part.text}
+                  </div>
+                )
+              case "tool-getWeather":
+                return (
+                  <div
+                    key={`${message.id}-getWeather-${index}`}
+                    className="mt-1 space-y-1"
+                  >
+                    <div className="rounded border border-zinc-700 bg-zinc-800/50 p-2">
+                      <div className="text-sm text-zinc-400">
+                        🌤️ [TOOL: getWeather] Weather for {part.input?.city}
+                      </div>
+                      <div className="text-sm text-zinc-300">
+                        <div>{part.output}</div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              case "tool-changeDegreeToCelsius":
+                return (
+                  <div
+                    key={`${message.id}-changeDegreeToCelsius-${index}`}
+                    className="mt-1 space-y-1"
+                  >
+                    <div className="rounded border border-zinc-700 bg-zinc-800/50 p-2">
+                      <div className="text-sm text-zinc-400">
+                        🌡️ [TOOL: changeDegreeToCelsius] Converting{" "}
+                        {part.input?.fahrenheit}°F to Celsius
+                      </div>
+                      <div className="text-sm text-zinc-300">
+                        <div>{part.output}</div>
+                      </div>
+                    </div>
                   </div>
                 )
               default:
